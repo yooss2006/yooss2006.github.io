@@ -11,6 +11,7 @@
     "noImplicitReturns": true,
     "baseUrl": "./src",
     "paths": {
+      "style/*": ["./style/*"],
       "components/*": ["./components/*"],
       "utils/*": ["./utils/*"],
       "hooks/*": ["./hooks/*"]

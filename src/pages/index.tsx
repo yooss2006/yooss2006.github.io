@@ -1,7 +1,12 @@
+import GlobalLayout from 'components/layout/GlobalLayout'
 import React from 'react'
 
 const index = () => {
-  return <div>index</div>
+  return (
+    <GlobalLayout>
+      <div>dd</div>
+    </GlobalLayout>
+  )
 }
 
 export default index
