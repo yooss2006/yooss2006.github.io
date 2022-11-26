@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { palette } from 'style/palette'
+import RightBar from './right/RightBar'
 import SideBar from './SideBar'
 
 type Props = {
@@ -9,16 +10,26 @@ type Props = {
 
 const SideBarLayout = ({ children }: Props) => {
   const length = '150px'
-  const color = localStorage.getItem('key') || 'green'
+  const [color, setColor] = useState(localStorage.getItem('color') || 'white')
+
+  const changeColor = (colorName: string) => {
+    setColor(colorName)
+  }
 
   return (
     <Box color={color}>
       <Header length={length} color={color}>
         하하
       </Header>
-      <SideBar length={length} direction="left" color={color} />
-      <SideBar length={length} direction="right" color={color} />
-      <SideBar length={length} direction="bottom" color={color} />
+      <SideBar length={length} direction="left" color={color}>
+        <div></div>
+      </SideBar>
+      <SideBar length={length} direction="right" color={color}>
+        <RightBar changeColor={changeColor} />
+      </SideBar>
+      <SideBar length={length} direction="bottom" color={color}>
+        <div></div>
+      </SideBar>
       <Main length={length}>{children}</Main>
     </Box>
   )

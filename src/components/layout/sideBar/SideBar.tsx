@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from '@emotion/styled'
 import { palette } from 'style/palette'
 
@@ -6,10 +6,15 @@ type Props = {
   length: string
   direction: string
   color: string
+  children: ReactNode
 }
 
-const SideBar = ({ length, direction, color }: Props) => {
-  return <Section length={length} className={direction} color={color}></Section>
+const SideBar = ({ length, direction, color, children }: Props) => {
+  return (
+    <Section length={length} className={direction} color={color}>
+      {children}
+    </Section>
+  )
 }
 
 const Section = styled.section<{ length: string; color: string }>`

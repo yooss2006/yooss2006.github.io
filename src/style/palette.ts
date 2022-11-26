@@ -26,4 +26,19 @@ export const palette: Palette = {
     complementaryColor: theme.green,
     colorArray: ['#F0EEC9', '#D4D9C1', '#DAF0C9', '#C4E6C1'],
   },
+  red: {
+    name: 'green',
+    complementaryColor: theme.green,
+    colorArray: ['#F0EEC9', '#D4D9C1', '#DAF0C9', '#C4E6C1'],
+  },
+  redd: {
+    name: 'green',
+    complementaryColor: theme.green,
+    colorArray: ['#F0EEC9', '#D4D9C1', '#DAF0C9', '#C4E6C1'],
+  },
+  reddd: {
+    name: 'green',
+    complementaryColor: theme.green,
+    colorArray: ['#F0EEC9', '#D4D9C1', '#DAF0C9', '#C4E6C1'],
+  },
 }
