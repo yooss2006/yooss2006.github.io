@@ -125,7 +125,10 @@ export const reset = css`
     border-collapse: collapse;
     border-spacing: 0;
   }
-
+  html,
+  body {
+    height: 100%;
+  }
   .blind {
     position: absolute;
     width: 1px;

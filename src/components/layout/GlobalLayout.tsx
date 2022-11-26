@@ -2,6 +2,7 @@ import { css, Global } from '@emotion/react'
 import { reset } from 'style/reset'
 import React, { ReactNode } from 'react'
 import { FC } from 'react'
+import SideBarLayout from './sideBar/SideBarLayout'
 
 type Props = {
   children: ReactNode
@@ -16,7 +17,7 @@ const GlobalLayout: FC<Props> = ({ children }) => {
           ${globalStyle}
         `}
       />
-      {children}
+      <SideBarLayout>{children}</SideBarLayout>
     </>
   )
 }
@@ -39,6 +40,10 @@ const globalStyle = css`
 
   body {
     font-family: 'HallymGothic-Regular';
+  }
+  #___gatsby,
+  #gatsby-focus-wrapper {
+    height: 100%;
   }
 
   h1,
