@@ -18,16 +18,17 @@ const ColorPicker = ({ changeColor }: Props) => {
 
   return (
     <ColorThemePicker color={color}>
-      <h3>THEME</h3>
-      <div>
+      <h3>🎨</h3>
+      <div className="container">
         {paletteValue.map(colorItem => (
-          <ColorBall
-            key={colorItem.name}
-            color={colorItem.name}
-            onClick={() => {
-              handleColor(colorItem.name)
-            }}
-          ></ColorBall>
+          <div key={colorItem.name} className="colorContainer">
+            <ColorBall
+              color={colorItem.name}
+              onClick={() => {
+                handleColor(colorItem.name)
+              }}
+            ></ColorBall>
+          </div>
         ))}
       </div>
     </ColorThemePicker>
@@ -44,7 +45,7 @@ const ColorThemePicker = styled.article<{ color: string }>`
     margin: 0.5em;
     color: ${({ color }) => palette[color].complementaryColor};
   }
-  div {
+  div.container {
     margin: 0.5em 0;
     padding: 0 0.5em;
     display: flex;
@@ -52,13 +53,17 @@ const ColorThemePicker = styled.article<{ color: string }>`
     flex-wrap: wrap;
     gap: 10px 0;
   }
+  div.colorContainer {
+    flex-basis: 30%;
+  }
 `
 
 const ColorBall = styled.button<{ color: string }>`
   height: 20px;
-  flex-basis: 30%;
+  width: 20px;
+  border-radius: 50%;
   box-sizing: border-box;
-  border: 2px solid ${({ color }) => palette[color].complementaryColor};
+  border: none;
   background: ${({ color }) => color};
 `
 

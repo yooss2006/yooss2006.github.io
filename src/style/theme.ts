@@ -5,6 +5,7 @@ export default {
   main: '#1790FF',
   error: '#F44336',
   white: '#FFFFFF',
+  purple: '#610099',
   green: '#025939',
   lightGray: '#E0E0E0',
   gray: '#B0B0B0',
