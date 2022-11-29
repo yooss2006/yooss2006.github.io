@@ -2,7 +2,6 @@ import { css, Global } from '@emotion/react'
 import { reset } from 'style/reset'
 import React, { ReactNode } from 'react'
 import { FC } from 'react'
-import SideBarLayout from './sideBar/SideBarLayout'
 
 type Props = {
   children: ReactNode
@@ -17,7 +16,7 @@ const GlobalLayout: FC<Props> = ({ children }) => {
           ${globalStyle}
         `}
       />
-      <SideBarLayout>{children}</SideBarLayout>
+      {children}
     </>
   )
 }

@@ -1,14 +1,18 @@
 import styled from '@emotion/styled'
+import { Posts } from 'hooks/useCategories'
 import React, { ReactNode, useState } from 'react'
 import { palette } from 'style/palette'
+import Nav from './left/Nav'
 import RightBar from './right/RightBar'
 import SideBar from './SideBar'
 
 type Props = {
   children: ReactNode
+  posts: Posts
 }
 
-const SideBarLayout = ({ children }: Props) => {
+const SideBarLayout = ({ posts, children }: Props) => {
+  console.log(posts)
   const length = '150px'
   const [color, setColor] = useState(localStorage.getItem('color') || 'white')
 
@@ -22,7 +26,7 @@ const SideBarLayout = ({ children }: Props) => {
         하하
       </Header>
       <SideBar length={length} direction="left" color={color}>
-        <div></div>
+        <Nav posts={posts} />
       </SideBar>
       <SideBar length={length} direction="right" color={color}>
         <RightBar changeColor={changeColor} />
