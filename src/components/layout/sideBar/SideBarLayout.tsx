@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Posts } from 'hooks/useCategories'
+import { Post } from 'hooks/useCategories'
 import React, { ReactNode, useState } from 'react'
 import { palette } from 'style/palette'
 import Nav from './left/Nav'
@@ -8,11 +8,10 @@ import SideBar from './SideBar'
 
 type Props = {
   children: ReactNode
-  posts: Posts
+  posts: Post[]
 }
 
 const SideBarLayout = ({ posts, children }: Props) => {
-  console.log(posts)
   const length = '150px'
   const [color, setColor] = useState(localStorage.getItem('color') || 'white')
 

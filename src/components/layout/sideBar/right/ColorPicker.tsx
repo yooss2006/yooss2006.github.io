@@ -54,13 +54,13 @@ const ColorThemePicker = styled.article<{ color: string }>`
     gap: 10px 0;
   }
   div.colorContainer {
-    flex-basis: 30%;
+    flex-basis: 25%;
   }
 `
 
 const ColorBall = styled.button<{ color: string }>`
-  height: 20px;
-  width: 20px;
+  height: 15px;
+  width: 15px;
   border-radius: 50%;
   box-sizing: border-box;
   border: none;

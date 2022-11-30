@@ -15,6 +15,7 @@ type Props = {
             frontmatter: {
               title: string
               categories: string
+              id: number
             }
           }
         },
@@ -47,6 +48,7 @@ export const getCategories = graphql`
           frontmatter {
             title
             categories
+            id
           }
         }
       }

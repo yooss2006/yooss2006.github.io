@@ -1,18 +1,29 @@
-import { Posts } from 'hooks/useCategories'
+import { css } from '@emotion/react'
+import { Post } from 'hooks/useCategories'
 import React from 'react'
+import theme from 'style/theme'
+import NavItem from './NavItem'
 
 type Props = {
-  posts: Posts
+  posts: Post[]
 }
 
 const Nav = ({ posts }: Props) => {
   return (
-    <ul>
+    <ul css={UlStyle}>
       {posts.map((item, index) => {
-        return <li key={index}>{item.categories}</li>
+        return (
+          <NavItem key={index} posts={item.post}>
+            {item.categories}
+          </NavItem>
+        )
       })}
     </ul>
   )
 }
+
+const UlStyle = css`
+  font-family: ${theme.title};
+`
 
 export default Nav

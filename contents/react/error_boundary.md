@@ -1,4 +1,5 @@
 ---
+id: 1
 date: '2022-11-29'
 title: 'Error Boundary'
 categories: 'react'

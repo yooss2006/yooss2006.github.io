@@ -4,7 +4,7 @@
     "module": "commonjs",
     "allowJs": true,
     "jsx": "react-jsx",
-    // "jsxImportSource": "@emotion/react",
+    "jsxImportSource": "@emotion/react",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
