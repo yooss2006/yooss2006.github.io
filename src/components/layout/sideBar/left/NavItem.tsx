@@ -25,12 +25,18 @@ const NavItem = ({
   checkedName,
 }: Props) => {
   const isChecked = checkedName === name
+
+  const handleChecked = () => {
+    const update = checkedName === name ? undefined : name
+    setCheckedName(update)
+  }
+
   return (
     <li css={LiStyle}>
       <button
         type="button"
         css={ButtonStyle}
-        onClick={() => setCheckedName(name)}
+        onClick={handleChecked}
         className={isChecked ? 'checked' : ''}
       >
         {children}
