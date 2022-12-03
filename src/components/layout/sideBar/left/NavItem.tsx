@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import { Link } from 'gatsby'
 import React, { Children, ReactNode } from 'react'
 import { FC } from 'react'
 
@@ -50,14 +51,18 @@ const SubNav = ({ posts }: SubProps) => {
   return (
     <ul css={SubNavStyle}>
       {posts.map(item => {
-        return <li>{item.title}</li>
+        return (
+          <li>
+            <Link to={`/post?id=${item.id}`}>{item.title}</Link>
+          </li>
+        )
       })}
     </ul>
   )
 }
 
 const SubNavStyle = css`
-  transition: all 1s;
+  margin: 1em 0;
 `
 
 const LiStyle = css`
