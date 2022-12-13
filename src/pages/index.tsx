@@ -6,20 +6,20 @@ import useCategories from 'hooks/useCategories'
 
 import React from 'react'
 
+type Edges = {
+  node: {
+    frontmatter: {
+      title: string
+      categories: string
+      id: number
+    }
+  }
+}
+
 type Props = {
   data: {
     allMarkdownRemark: {
-      edges: [
-        {
-          node: {
-            frontmatter: {
-              title: string
-              categories: string
-              id: number
-            }
-          }
-        },
-      ]
+      edges: Edges[]
     }
   }
 }
