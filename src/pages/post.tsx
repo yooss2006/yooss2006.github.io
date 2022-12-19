@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import PostContent from 'components/\bpost/postContent'
 import GlobalLayout from 'components/layout/GlobalLayout'
 import SideBarLayout from 'components/layout/sideBar/SideBarLayout'
 import { graphql } from 'gatsby'
@@ -16,6 +17,7 @@ type Props = {
       edges: [
         {
           node: {
+            html: string
             frontmatter: {
               title: string
               categories: string
@@ -35,15 +37,18 @@ const PostPage = ({
   },
 }: Props) => {
   const { posts } = useCategories({ edges })
+  const {
+    node: { html },
+  } = edges[0]
+  console.log(html)
   const { id }: ParsedQuery<string> = queryString.parse(search)
   const postName = posts.find(item => {
     return item.post.find(post => post.id === Number(id))
   })
-  console.log(postName)
   return (
     <GlobalLayout>
       <SideBarLayout posts={posts}>
-        <TestBox>{id}</TestBox>
+        <PostContent html={html} />
       </SideBarLayout>
     </GlobalLayout>
   )
@@ -54,6 +59,7 @@ export const getCategories = graphql`
     allMarkdownRemark {
       edges {
         node {
+          html
           frontmatter {
             title
             categories

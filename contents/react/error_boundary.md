@@ -6,31 +6,23 @@ categories: 'react'
 summary: '하위 컴포넌트 트리의 자바스크립트 에러를 기록하고 폴백 UI를 보여주는 Error Boundary를 알아보자.'
 ---
 
-React 16에서 도입된 기능이다.
+## ErrorBoundary 개념
 
 <aside>
-💡Error Boundary는 
-**하위 컴포넌트 트리**의 어디에서든 **자바스크립트 에러를 기록**하며 
-깨진 컴포넌트 트리 대신 **폴백 UI**를 보여주는 
-****React 컴포넌트입니다.
-
+Error Boundary는 하위 컴포넌트 트리의 어디에서든 자바스크립트 에러를 기록하며 깨진 컴포넌트 트리 대신 폴백UI를 보여주는 React 컴포넌트입니다.
 </aside>
 
-장점
+- React 16에서 도입된 기능이다.
+
+### 장점
 
 - 서버 점검, 네트워크 에러 등의 공통 처리 할 수 있는 에러를 한곳에서 처리
 - UI 일부분에서 발생한 자바스크립트 에러 때문에 전체 애플리케이션 중단 방지
 - 에러 발생시 보여주는 컴포넌트에서 유저가 API 호출을 재시도하여 에러를 리셋할 수 있는 트리거 장치
 - 비동기 에러 핸들링을 선언적으로 처리
+- 사용자에게 좋은 경험을 주고 에러 핸들링이 용이
 
-<aside>
-💡 결론 :
-
-- 사용자에게 좋은 경험
-- 에러 핸들링 용이
-</aside>
-
-# 공식문서 예시
+## 공식문서 예시
 
 자바스크립트의 try-catch 구문과 유사하게 동작하지만 Error Boundary는 컴포넌트에 적용된다.
 
@@ -39,7 +31,7 @@ React 16에서 도입된 기능이다.
 - 자체적으로는 에러를 포착할 수는 없음
 - Error Boundary가 에러 메시지를 렌더링하는 데에 실패한다면 에러는 그 위의 가장 가까운 에러 경계로 전파된다.
 
-Error Boundary는 **class형 컴포넌트**로 선언한다.
+Error Boundary는 **class형 컴포넌트** 를 선언한다.
 
 ```jsx
 class ErrorBoundary extends React.Component {
@@ -82,8 +74,8 @@ class ErrorBoundary extends React.Component {
   - 에러 상태에 따라 보여주는 UI를 결정한다.
 
 ```jsx
-**render** 단계는 React가 DOM 갱신이 일어날 때 이전과 이후를 비교하며 변경 사항을 계산하는 단계입니다.
-**commit** 단계는 React가 비교를 끝내고 DOM에 직접적으로 갱신될 내용을 적용하는 단계입니다.
+render단계는 React가 DOM 갱신이 일어날 때 이전과 이후를 비교하며 변경 사항을 계산하는 단계입니다.
+commit단계는 React가 비교를 끝내고 DOM에 직접적으로 갱신될 내용을 적용하는 단계입니다.
 ```
 
 [커스텀 Error Boundary 예시](https://velog.io/@rkd028/React-ErrorBoundary-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-%EC%97%90%EB%9F%AC-%ED%95%B8%EB%93%A4%EB%A7%81-%ED%95%98%EA%B8%B0)

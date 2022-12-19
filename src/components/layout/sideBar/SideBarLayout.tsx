@@ -64,6 +64,11 @@ const Main = styled.main<{ length: string }>`
   top: ${({ length }) => length};
   left: ${({ length }) => length};
   overflow: scroll;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0 !important;
+  }
   box-sizing: border-box;
 `
 
