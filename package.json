@@ -1,0 +1,17 @@
+{
+  "name": "rainy-notes",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "packageManager": "pnpm@10.26.0",
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "astro": "ASTRO_TELEMETRY_DISABLED=1 astro"
+  },
+  "dependencies": {
+    "astro": "^6.4.5"
+  },
+  "devDependencies": {}
+}
