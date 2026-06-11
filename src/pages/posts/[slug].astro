@@ -28,9 +28,13 @@ const pageTitle = `${post.data.title} | 비가 내리네요.`;
   </head>
   <body>
     <main>
-      <article>
-        <a href="/">비가 내리네요.</a>
+      <nav aria-label="주요 메뉴">
+        <a href="/">홈</a>
+        <a href="/posts/">글</a>
+        <a href="/about/">소개</a>
+      </nav>
 
+      <article>
         <header>
           <p>{post.data.category}</p>
           <h1>{post.data.title}</h1>
