@@ -1,64 +1,49 @@
 ---
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import { formatPostDate, getPostSlug, getRecentPosts } from "@/lib/posts";
 
 const title = "비가 내리네요.";
+const description = "개발과 일상을 남기는 개인 기록장";
 const recentPosts = await getRecentPosts(5);
 ---
 
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content="개발과 일상을 남기는 개인 기록장" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{title}</title>
-  </head>
-  <body>
-    <main>
-      <nav aria-label="주요 메뉴">
-        <a href="/">홈</a>
-        <a href="/posts/">글</a>
-        <a href="/about/">소개</a>
-      </nav>
+<BaseLayout title={title} description={description} currentPath="/">
+  <p>rainy-notes</p>
+  <h1>{title}</h1>
+  <p>개발과 일상을 오래 남기는 개인 기록장입니다.</p>
+  <p>
+    <a href="/posts/">글 보기</a>
+    <a href="/about/">소개 보기</a>
+  </p>
 
-      <p>rainy-notes</p>
-      <h1>{title}</h1>
-      <p>개발과 일상을 오래 남기는 개인 기록장입니다.</p>
-      <p>
-        <a href="/posts/">글 보기</a>
-        <a href="/about/">소개 보기</a>
-      </p>
+  <section aria-labelledby="recent-posts-title">
+    <h2 id="recent-posts-title">최근 글</h2>
+    {
+      recentPosts.length > 0 ? (
+        <ol>
+          {recentPosts.map((post) => {
+            const slug = getPostSlug(post);
+            const publishedAt = formatPostDate(post.data.publishedAt);
 
-      <section aria-labelledby="recent-posts-title">
-        <h2 id="recent-posts-title">최근 글</h2>
-        {
-          recentPosts.length > 0 ? (
-            <ol>
-              {recentPosts.map((post) => {
-                const slug = getPostSlug(post);
-                const publishedAt = formatPostDate(post.data.publishedAt);
-
-                return (
-                  <li>
-                    <article>
-                      <p>{post.data.category}</p>
-                      <h3>
-                        <a href={`/posts/${slug}/`}>{post.data.title}</a>
-                      </h3>
-                      <p>
-                        <time datetime={post.data.publishedAt.toISOString()}>{publishedAt}</time>
-                      </p>
-                      <p>{post.data.description}</p>
-                    </article>
-                  </li>
-                );
-              })}
-            </ol>
-          ) : (
-            <p>아직 공개된 글이 없습니다.</p>
-          )
-        }
-      </section>
-    </main>
-  </body>
-</html>
+            return (
+              <li>
+                <article>
+                  <p>{post.data.category}</p>
+                  <h3>
+                    <a href={`/posts/${slug}/`}>{post.data.title}</a>
+                  </h3>
+                  <p>
+                    <time datetime={post.data.publishedAt.toISOString()}>{publishedAt}</time>
+                  </p>
+                  <p>{post.data.description}</p>
+                </article>
+              </li>
+            );
+          })}
+        </ol>
+      ) : (
+        <p>아직 공개된 글이 없습니다.</p>
+      )
+    }
+  </section>
+</BaseLayout>

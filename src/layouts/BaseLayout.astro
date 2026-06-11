@@ -1,0 +1,43 @@
+---
+import { ClientRouter } from "astro:transitions";
+
+interface Props {
+  title: string;
+  description: string;
+  currentPath?: "/" | "/posts/" | "/about/";
+}
+
+const { title, description, currentPath } = Astro.props;
+
+const navItems = [
+  { href: "/", label: "홈" },
+  { href: "/posts/", label: "글" },
+  { href: "/about/", label: "소개" },
+];
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+    <ClientRouter />
+  </head>
+  <body>
+    <main>
+      <nav aria-label="주요 메뉴">
+        {
+          navItems.map((item) => (
+            <a href={item.href} aria-current={currentPath === item.href ? "page" : undefined}>
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <slot />
+    </main>
+  </body>
+</html>

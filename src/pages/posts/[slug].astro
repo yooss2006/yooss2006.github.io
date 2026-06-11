@@ -1,5 +1,6 @@
 ---
 import { render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import { formatPostDate, getPublishedPosts, getPostSlug } from "@/lib/posts";
 
 export async function getStaticPaths() {
@@ -18,52 +19,35 @@ const updatedAt = post.data.updatedAt ? formatPostDate(post.data.updatedAt) : un
 const pageTitle = `${post.data.title} | 비가 내리네요.`;
 ---
 
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content={post.data.description} />
-    <meta name="viewport" content="width=device-width" />
-    <title>{pageTitle}</title>
-  </head>
-  <body>
-    <main>
-      <nav aria-label="주요 메뉴">
-        <a href="/">홈</a>
-        <a href="/posts/">글</a>
-        <a href="/about/">소개</a>
-      </nav>
+<BaseLayout title={pageTitle} description={post.data.description}>
+  <article>
+    <header>
+      <p>{post.data.category}</p>
+      <h1>{post.data.title}</h1>
+      <p>{post.data.description}</p>
+      <p>
+        <time datetime={post.data.publishedAt.toISOString()}>{publishedAt}</time>
+        {
+          updatedAt && (
+            <>
+              {" "}
+              <span>수정: </span>
+              <time datetime={post.data.updatedAt?.toISOString()}>{updatedAt}</time>
+            </>
+          )
+        }
+      </p>
+      {
+        post.data.tags.length > 0 && (
+          <ul aria-label="태그">
+            {post.data.tags.map((tag) => (
+              <li>{tag}</li>
+            ))}
+          </ul>
+        )
+      }
+    </header>
 
-      <article>
-        <header>
-          <p>{post.data.category}</p>
-          <h1>{post.data.title}</h1>
-          <p>{post.data.description}</p>
-          <p>
-            <time datetime={post.data.publishedAt.toISOString()}>{publishedAt}</time>
-            {
-              updatedAt && (
-                <>
-                  {" "}
-                  <span>수정: </span>
-                  <time datetime={post.data.updatedAt?.toISOString()}>{updatedAt}</time>
-                </>
-              )
-            }
-          </p>
-          {
-            post.data.tags.length > 0 && (
-              <ul aria-label="태그">
-                {post.data.tags.map((tag) => (
-                  <li>{tag}</li>
-                ))}
-              </ul>
-            )
-          }
-        </header>
-
-        <Content />
-      </article>
-    </main>
-  </body>
-</html>
+    <Content />
+  </article>
+</BaseLayout>
