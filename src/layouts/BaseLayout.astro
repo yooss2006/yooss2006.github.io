@@ -11,9 +11,8 @@ interface Props {
 const { title, description, currentPath } = Astro.props;
 
 const navItems = [
-  { href: "/", label: "홈" },
-  { href: "/posts/", label: "글" },
-  { href: "/about/", label: "소개" },
+  { href: "/posts/", label: "Posts" },
+  { href: "/about/", label: "About" },
 ];
 ---
 
@@ -27,18 +26,32 @@ const navItems = [
     <ClientRouter />
   </head>
   <body>
-    <main>
-      <nav aria-label="주요 메뉴">
-        {
-          navItems.map((item) => (
-            <a href={item.href} aria-current={currentPath === item.href ? "page" : undefined}>
-              {item.label}
-            </a>
-          ))
-        }
-      </nav>
+    <a class="skip-link" href="#content">본문으로 이동</a>
 
-      <slot />
-    </main>
+    <div class="site-shell">
+      <header class="site-header">
+        <a class="site-title" href="/" aria-label="비가 내리네요. 홈">
+          비가 내리네요.
+        </a>
+
+        <nav class="site-nav" aria-label="주요 메뉴">
+          {
+            navItems.map((item) => (
+              <a href={item.href} aria-current={currentPath === item.href ? "page" : undefined}>
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+      </header>
+
+      <main id="content" class="site-main">
+        <slot />
+      </main>
+
+      <footer class="site-footer">
+        <p>개발과 일상을 오래 남기는 개인 기록장</p>
+      </footer>
+    </div>
   </body>
 </html>
