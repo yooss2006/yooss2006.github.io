@@ -1,5 +1,8 @@
 ---
+import { formatPostDate, getPostSlug, getRecentPosts } from "@/lib/posts";
+
 const title = "비가 내리네요.";
+const recentPosts = await getRecentPosts(5);
 ---
 
 <!doctype html>
@@ -25,6 +28,37 @@ const title = "비가 내리네요.";
         <a href="/posts/">글 보기</a>
         <a href="/about/">소개 보기</a>
       </p>
+
+      <section aria-labelledby="recent-posts-title">
+        <h2 id="recent-posts-title">최근 글</h2>
+        {
+          recentPosts.length > 0 ? (
+            <ol>
+              {recentPosts.map((post) => {
+                const slug = getPostSlug(post);
+                const publishedAt = formatPostDate(post.data.publishedAt);
+
+                return (
+                  <li>
+                    <article>
+                      <p>{post.data.category}</p>
+                      <h3>
+                        <a href={`/posts/${slug}/`}>{post.data.title}</a>
+                      </h3>
+                      <p>
+                        <time datetime={post.data.publishedAt.toISOString()}>{publishedAt}</time>
+                      </p>
+                      <p>{post.data.description}</p>
+                    </article>
+                  </li>
+                );
+              })}
+            </ol>
+          ) : (
+            <p>아직 공개된 글이 없습니다.</p>
+          )
+        }
+      </section>
     </main>
   </body>
 </html>
