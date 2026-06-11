@@ -23,3 +23,11 @@ export async function getRecentPosts(limit = 5) {
 
   return posts.slice(0, limit);
 }
+
+export function formatPostDate(date: Date) {
+  return date.toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
