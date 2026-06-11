@@ -1,0 +1,4 @@
+interface:
+  display_name: "Git Commit"
+  short_description: "커밋 전 파일 묶음과 한글 커밋 메시지를 승인받습니다."
+  default_prompt: "커밋하기 전에 변경 파일 묶음과 한글 커밋 메시지를 제안하고, 승인 후 기능 단위로 커밋하세요."
