@@ -1,0 +1,120 @@
+---
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
+const volumeOffIcon = readFileSync(join(process.cwd(), "public/icons/volume-off.svg"), "utf8");
+const volumeOnIcon = readFileSync(join(process.cwd(), "public/icons/volume-on.svg"), "utf8");
+---
+
+<div class="rain-sound-owner" data-rain-sound-owner data-state="off" data-pending="false" transition:persist>
+  <button
+    class="rain-sound-toggle"
+    type="button"
+    aria-label="빗소리 켜기"
+    aria-pressed="false"
+    aria-describedby="rain-sound-toggle-hint"
+    data-rain-sound-toggle
+    data-label-off="빗소리 켜기"
+    data-label-on="빗소리 끄기"
+  >
+    <span class="rain-sound-toggle__icon" data-rain-sound-icon aria-hidden="true"></span>
+    <span class="sr-only" data-rain-sound-state-label>현재 꺼짐</span>
+  </button>
+  <span id="rain-sound-toggle-hint" class="sr-only">
+    기본적으로 꺼져 있으며, 같은 탭에서 페이지를 이동해도 재생 상태가 유지됩니다.
+  </span>
+  <template data-rain-sound-icon-template="off"><Fragment set:html={volumeOffIcon} /></template>
+  <template data-rain-sound-icon-template="on"><Fragment set:html={volumeOnIcon} /></template>
+
+  <audio data-rain-sound-audio preload="none" loop src="/audio/rain.mp3"></audio>
+</div>
+
+<script>
+  type RainSoundOwner = HTMLElement & {
+    dataset: DOMStringMap & {
+      initialized?: string;
+      state?: "off" | "on";
+      pending?: "true" | "false";
+    };
+  };
+
+  const owner = document.querySelector<RainSoundOwner>("[data-rain-sound-owner]");
+  const button = owner?.querySelector<HTMLButtonElement>("[data-rain-sound-toggle]");
+  const stateLabel = owner?.querySelector<HTMLElement>("[data-rain-sound-state-label]");
+  const iconSlot = owner?.querySelector<HTMLElement>("[data-rain-sound-icon]");
+  const offTemplate = owner?.querySelector<HTMLTemplateElement>('[data-rain-sound-icon-template="off"]');
+  const onTemplate = owner?.querySelector<HTMLTemplateElement>('[data-rain-sound-icon-template="on"]');
+  const audio = owner?.querySelector<HTMLAudioElement>("[data-rain-sound-audio]");
+
+  function renderIcon(state: "off" | "on") {
+    if (!iconSlot || !offTemplate || !onTemplate) {
+      return;
+    }
+
+    const sourceTemplate = state === "on" ? onTemplate : offTemplate;
+    iconSlot.replaceChildren(sourceTemplate.content.cloneNode(true));
+  }
+
+  function syncState(isPlaying: boolean) {
+    if (!owner || !button || !stateLabel) {
+      return;
+    }
+
+    const nextState = isPlaying ? "on" : "off";
+    const nextLabel = isPlaying ? button.dataset.labelOn : button.dataset.labelOff;
+
+    owner.dataset.state = nextState;
+    button.ariaPressed = String(isPlaying);
+    button.ariaLabel = nextLabel ?? (isPlaying ? "빗소리 끄기" : "빗소리 켜기");
+    stateLabel.textContent = isPlaying ? "현재 켜짐" : "현재 꺼짐";
+    renderIcon(nextState);
+  }
+
+  if (!owner || !button || !stateLabel || !audio || owner.dataset.initialized === "true") {
+    if (owner?.dataset.state) {
+      syncState(owner.dataset.state === "on");
+    }
+  } else {
+    owner.dataset.initialized = "true";
+    syncState(!audio.paused && !audio.ended);
+
+    button.addEventListener("click", async () => {
+      if (owner.dataset.pending === "true") {
+        return;
+      }
+
+      if (!audio.paused && !audio.ended) {
+        audio.pause();
+        syncState(false);
+        return;
+      }
+
+      owner.dataset.pending = "true";
+      button.disabled = true;
+
+      try {
+        await audio.play();
+        syncState(true);
+      } catch {
+        audio.pause();
+        syncState(false);
+      } finally {
+        owner.dataset.pending = "false";
+        button.disabled = false;
+      }
+    });
+
+    audio.addEventListener("play", () => {
+      syncState(true);
+    });
+
+    audio.addEventListener("pause", () => {
+      syncState(false);
+    });
+
+    audio.addEventListener("error", () => {
+      audio.pause();
+      syncState(false);
+    });
+  }
+</script>
