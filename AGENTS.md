@@ -8,6 +8,7 @@
 - 목적: 개발 글과 일상 글을 오래 남기는 개인 기록장
 - 배포 대상: `https://username.github.io` 형태의 GitHub Pages 사용자 사이트
 - 패키지 매니저: `pnpm`
+- Astro 기준 버전: 7.x (`package.json`의 `astro` 의존성을 기준으로 판단하고, Astro 6 기준으로 동작한다고 가정하지 않습니다.)
 
 ## 제품 방향
 
