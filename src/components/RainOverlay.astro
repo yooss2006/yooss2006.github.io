@@ -1,0 +1,154 @@
+---
+import type { RainIntensity } from "@/lib/rain-engine";
+
+interface Props {
+  enabled: boolean;
+  intensity: RainIntensity;
+  className?: string;
+  wind?: number;
+  color?: string;
+}
+
+const {
+  enabled,
+  intensity,
+  className = "",
+  wind = 0,
+  color = "rgb(206 226 232)",
+} = Astro.props;
+
+const opacityByIntensity: Record<RainIntensity, number> = {
+  drizzle: 0.38,
+  shower: 0.48,
+  storm: 0.58,
+};
+---
+
+<div
+  class:list={["rain-overlay", className]}
+  data-rain-overlay
+  data-enabled={String(enabled)}
+  data-intensity={intensity}
+  data-wind={String(wind)}
+  data-color={color}
+  aria-hidden="true"
+  style={`--rain-overlay-opacity: ${opacityByIntensity[intensity]};`}
+  transition:persist
+>
+  <canvas class="rain-overlay__canvas" data-rain-overlay-canvas></canvas>
+</div>
+
+<script>
+  import { RainCanvasEngine, type RainIntensity } from "@/lib/rain-engine";
+
+  type RainOverlayElement = HTMLElement & {
+    dataset: DOMStringMap & {
+      rainOverlayReady?: string;
+      enabled?: string;
+      intensity?: RainIntensity;
+      wind?: string;
+      color?: string;
+    };
+    __rainCleanup?: () => void;
+  };
+
+  function initializeRainOverlay(owner: RainOverlayElement) {
+    if (owner.dataset.rainOverlayReady === "true") {
+      return;
+    }
+
+    const canvas = owner.querySelector<HTMLCanvasElement>("[data-rain-overlay-canvas]");
+
+    if (!canvas) {
+      return;
+    }
+
+    owner.dataset.rainOverlayReady = "true";
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const engine = reduceMotion.matches
+      ? null
+      : new RainCanvasEngine(canvas, {
+          intensity: owner.dataset.intensity ?? "drizzle",
+          wind: Number(owner.dataset.wind ?? 0),
+          color: owner.dataset.color ?? "rgb(206 226 232)",
+        });
+
+    const resize = () => engine?.resize();
+    const syncVisibility = () => engine?.setVisible(document.visibilityState === "visible");
+    const syncEnabled = () => {
+      const shouldRun = owner.dataset.enabled === "true" && !reduceMotion.matches;
+
+      owner.dataset.motion = reduceMotion.matches ? "reduced" : "active";
+
+      if (shouldRun) {
+        owner.dataset.state = "on";
+        engine?.start();
+      } else {
+        owner.dataset.state = "off";
+        engine?.stop();
+      }
+    };
+
+    const observer = engine
+      ? new IntersectionObserver(([entry]) => engine.setViewportActive(Boolean(entry?.isIntersecting)), {
+          threshold: 0,
+        })
+      : null;
+
+    observer?.observe(canvas);
+    window.addEventListener("resize", resize, { passive: true });
+    document.addEventListener("visibilitychange", syncVisibility);
+    reduceMotion.addEventListener("change", syncEnabled);
+
+    owner.__rainCleanup = () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", syncVisibility);
+      reduceMotion.removeEventListener("change", syncEnabled);
+      engine?.destroy();
+      owner.dataset.rainOverlayReady = "false";
+    };
+
+    syncVisibility();
+    syncEnabled();
+  }
+
+  document.querySelectorAll<RainOverlayElement>("[data-rain-overlay]").forEach(initializeRainOverlay);
+</script>
+
+<style>
+  .rain-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 800ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .rain-overlay[data-state="on"] {
+    opacity: var(--rain-overlay-opacity, 0.38);
+  }
+
+  .rain-overlay__canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .rain-overlay--reduced {
+    background:
+      linear-gradient(115deg, rgb(206 226 232 / 3%) 0 1px, transparent 1px 20px),
+      linear-gradient(180deg, rgb(206 226 232 / 3%), transparent 42rem);
+    opacity: 0.18;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rain-overlay__canvas {
+      display: none;
+    }
+  }
+</style>
