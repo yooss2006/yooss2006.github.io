@@ -4,7 +4,7 @@
 
 `rainy-notes`는 Astro 기반 정적 개인 블로그입니다.
 
-- 블로그 이름: `비가 내리네요.`
+- 블로그 이름: `안개비`
 - 목적: 개발 글과 일상 글을 오래 남기는 개인 기록장
 - 배포 대상: `https://username.github.io` 형태의 GitHub Pages 사용자 사이트
 - 패키지 매니저: `pnpm`

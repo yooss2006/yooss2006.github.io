@@ -1,6 +1,7 @@
 ---
 import { render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getPageTitle } from "@/config/site";
 import { formatPostDate, getPublishedPosts, getPostSlug } from "@/lib/posts";
 
 export async function getStaticPaths() {
@@ -16,10 +17,10 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 const publishedAt = formatPostDate(post.data.publishedAt);
 const updatedAt = post.data.updatedAt ? formatPostDate(post.data.updatedAt) : undefined;
-const pageTitle = `${post.data.title} | 비가 내리네요.`;
+const pageTitle = getPageTitle(post.data.title);
 ---
 
-<BaseLayout title={pageTitle} description={post.data.description}>
+<BaseLayout title={pageTitle} description={post.data.description} ogType="article">
   <article>
     <header>
       <p>{post.data.category}</p>

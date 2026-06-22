@@ -1,0 +1,21 @@
+{
+  "name": "안개비",
+  "short_name": "안개비",
+  "description": "개발과 일상을 남기는 개인 기록장",
+  "start_url": "/",
+  "display": "minimal-ui",
+  "background_color": "#121315",
+  "theme_color": "#121315",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

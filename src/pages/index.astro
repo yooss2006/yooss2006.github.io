@@ -1,16 +1,15 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { siteConfig } from "@/config/site";
 import { formatPostDate, getPostSlug, getRecentPosts } from "@/lib/posts";
 
-const title = "비가 내리네요.";
-const description = "개발과 일상을 남기는 개인 기록장";
 const recentPosts = await getRecentPosts(5);
 ---
 
-<BaseLayout title={title} description={description} currentPath="/">
-  <p>rainy-notes</p>
-  <h1>{title}</h1>
-  <p>개발과 일상을 오래 남기는 개인 기록장입니다.</p>
+<BaseLayout title={siteConfig.name} description={siteConfig.description} currentPath="/">
+  <p>{siteConfig.projectName}</p>
+  <h1>{siteConfig.name}</h1>
+  <p>{siteConfig.longDescription}</p>
   <p>
     <a href="/posts/">글 보기</a>
     <a href="/about/">소개 보기</a>

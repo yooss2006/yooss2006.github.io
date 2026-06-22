@@ -1,15 +1,16 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getPageTitle, siteConfig } from "@/config/site";
 
-const pageTitle = "소개 | 비가 내리네요.";
-const description = "비가 내리네요. 블로그와 글쓴이를 소개합니다.";
+const pageTitle = getPageTitle("소개");
+const description = `${siteConfig.name} 블로그와 글쓴이를 소개합니다.`;
 ---
 
 <BaseLayout title={pageTitle} description={description} currentPath="/about/">
   <header>
     <p>about</p>
     <h1>소개</h1>
-    <p>비가 내리네요.는 개발과 일상을 오래 남기기 위한 개인 기록장입니다.</p>
+    <p>{siteConfig.name}는 개발과 일상을 오래 남기기 위한 개인 기록장입니다.</p>
   </header>
 
   <section aria-labelledby="blog-title">
