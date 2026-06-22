@@ -118,3 +118,72 @@ const volumeOnIcon = readFileSync(join(process.cwd(), "public/icons/volume-on.sv
     });
   }
 </script>
+
+<style>
+  .rain-sound-owner {
+    display: flex;
+    align-items: center;
+  }
+
+  .rain-sound-toggle {
+    all: unset;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    box-sizing: border-box;
+    border: 0;
+    border-color: transparent;
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    appearance: none;
+    -webkit-appearance: none;
+    box-shadow: none !important;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    line-height: 1;
+    text-align: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .rain-sound-toggle::-moz-focus-inner {
+    border: 0;
+  }
+
+  .rain-sound-toggle__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .rain-sound-toggle__icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: currentColor;
+  }
+
+  .rain-sound-toggle:hover,
+  .rain-sound-toggle:active,
+  .rain-sound-toggle:focus,
+  .rain-sound-toggle:focus-visible,
+  .rain-sound-toggle:focus-within,
+  .rain-sound-owner[data-state="on"] .rain-sound-toggle {
+    border-color: transparent;
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    color: var(--color-text);
+  }
+
+  .rain-sound-toggle:disabled {
+    cursor: wait;
+    opacity: 0.72;
+  }
+</style>
