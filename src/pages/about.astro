@@ -1,40 +1,23 @@
 ---
+import { getEntry, render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getPageTitle, siteConfig } from "@/config/site";
+import { getPageTitle } from "@/config/site";
 
-const pageTitle = getPageTitle("소개");
-const description = `${siteConfig.name} 블로그와 글쓴이를 소개합니다.`;
+const aboutPage = await getEntry("pages", "about");
+if (!aboutPage) {
+  throw new Error("src/content/pages/about.md 파일이 필요합니다.");
+}
+
+const { Content: AboutContent } = await render(aboutPage);
+const pageTitle = getPageTitle(aboutPage.data.title);
 ---
 
-<BaseLayout title={pageTitle} description={description} currentPath="/about/">
+<BaseLayout title={pageTitle} description={aboutPage.data.description} currentPath="/about/">
   <header>
-    <p>about</p>
-    <h1>소개</h1>
-    <p>{siteConfig.name}는 개발과 일상을 오래 남기기 위한 개인 기록장입니다.</p>
+    {aboutPage.data.eyebrow && <p>{aboutPage.data.eyebrow}</p>}
+    <h1>{aboutPage.data.title}</h1>
+    <p>{aboutPage.data.description}</p>
   </header>
 
-  <section aria-labelledby="blog-title">
-    <h2 id="blog-title">블로그</h2>
-    <p>
-      이곳은 빠르게 지나가는 생각과 작업 기록을 천천히 다시 읽을 수 있게 남기는 공간입니다.
-      비는 분위기를 만드는 배경이고, 중심에는 언제나 글이 있습니다.
-    </p>
-  </section>
-
-  <section aria-labelledby="writer-title">
-    <h2 id="writer-title">글쓴이</h2>
-    <p>
-      개발하며 배운 것, 만들며 막힌 것, 일상에서 오래 붙잡고 싶은 문장을 기록합니다.
-      포트폴리오처럼 정제하기보다 나중에 다시 돌아볼 수 있는 흐름을 더 중요하게 둡니다.
-    </p>
-  </section>
-
-  <section aria-labelledby="topics-title">
-    <h2 id="topics-title">다루는 글</h2>
-    <ul>
-      <li>개발 과정에서 남기는 기록</li>
-      <li>도구와 작업 방식에 대한 메모</li>
-      <li>일상에서 길게 보관하고 싶은 생각</li>
-    </ul>
-  </section>
+  <AboutContent />
 </BaseLayout>

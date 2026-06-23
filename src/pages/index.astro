@@ -1,15 +1,21 @@
 ---
+import { getEntry, render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { siteConfig } from "@/config/site";
 import { formatPostDate, getPostSlug, getRecentPosts } from "@/lib/posts";
 
+const homePage = await getEntry("pages", "home");
+if (!homePage) {
+  throw new Error("src/content/pages/home.md 파일이 필요합니다.");
+}
+
+const { Content: HomeContent } = await render(homePage);
 const recentPosts = await getRecentPosts(5);
 ---
 
-<BaseLayout title={siteConfig.name} description={siteConfig.description} currentPath="/">
-  <p>{siteConfig.projectName}</p>
-  <h1>{siteConfig.name}</h1>
-  <p>{siteConfig.longDescription}</p>
+<BaseLayout title={homePage.data.title} description={homePage.data.description} currentPath="/">
+  {homePage.data.eyebrow && <p>{homePage.data.eyebrow}</p>}
+  <h1>{homePage.data.title}</h1>
+  <HomeContent />
   <p>
     <a href="/posts/">글 보기</a>
     <a href="/about/">소개 보기</a>
