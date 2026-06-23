@@ -16,6 +16,7 @@ const { title, description, currentPath, ogType = "website" } = Astro.props;
 const siteUrl = Astro.site ?? new URL(siteConfig.url);
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 const ogImageUrl = new URL(siteConfig.ogImage, siteUrl).toString();
+const rssUrl = new URL(siteConfig.links.rss, siteUrl).toString();
 ---
 
 <!doctype html>
@@ -31,6 +32,7 @@ const ogImageUrl = new URL(siteConfig.ogImage, siteUrl).toString();
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" type="application/rss+xml" title={`${siteConfig.name} RSS`} href={rssUrl} />
     <meta property="og:site_name" content={siteConfig.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -78,7 +80,21 @@ const ogImageUrl = new URL(siteConfig.ogImage, siteUrl).toString();
       </main>
 
       <footer class="site-footer">
-        <p>{siteConfig.longDescription}</p>
+        <p>Copyright © 2026 All Right {siteConfig.author}</p>
+        <ul aria-label="사이트 정보">
+          <li>
+            <a href={siteConfig.links.email} target="_blank" rel="noreferrer">{siteConfig.email}</a>
+          </li>
+          <li>
+            <a href={siteConfig.links.github}>GitHub</a>
+          </li>
+          <li>
+            <a href={siteConfig.repository.href}>{siteConfig.repository.label}</a>
+          </li>
+          <li>
+            <a href={siteConfig.links.rss}>RSS</a>
+          </li>
+        </ul>
       </footer>
     </div>
   </body>
@@ -108,9 +124,11 @@ const ogImageUrl = new URL(siteConfig.ogImage, siteUrl).toString();
   .site-shell {
     position: relative;
     z-index: 1;
+    display: grid;
+    min-height: 100dvh;
     width: min(100% - 2rem, var(--page-width));
+    grid-template-rows: auto 1fr auto;
     margin: 0 auto;
-    padding: 0 0 var(--space-7);
   }
 
   .site-header {
@@ -173,13 +191,50 @@ const ogImageUrl = new URL(siteConfig.ogImage, siteUrl).toString();
   }
 
   .site-footer {
-    padding-top: var(--space-5);
+    display: grid;
+    gap: var(--space-1);
+    padding: var(--space-5) 0;
     border-top: 1px solid var(--color-border);
+    color: var(--color-text-subtle);
   }
 
   .site-footer p {
     margin-bottom: 0;
     font-size: 0.875rem;
+    line-height: 1.35;
+  }
+
+  .site-footer ul {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--space-2);
+    row-gap: 0.15rem;
+    padding: 0;
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.35;
+    list-style: none;
+  }
+
+  .site-footer li {
+    display: inline-flex;
+    gap: var(--space-1);
+    align-items: center;
+    margin: 0;
+  }
+
+  .site-footer li + li::before {
+    color: var(--color-text-subtle);
+    content: ".";
+  }
+
+  .site-footer a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .site-footer a:hover {
+    color: var(--color-link-hover);
   }
 
   @media (max-width: 48rem) {
