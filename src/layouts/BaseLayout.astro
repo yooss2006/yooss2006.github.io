@@ -4,6 +4,7 @@ import RainOverlay from "@/components/RainOverlay.astro";
 import RainSoundToggle from "@/components/RainSoundToggle.astro";
 import { siteConfig } from "@/config/site";
 import "@/styles/global.css";
+import styles from "./BaseLayout.module.css";
 
 interface Props {
   title: string;
@@ -47,14 +48,14 @@ const rssUrl = new URL(siteConfig.links.rss, siteUrl).toString();
     <ClientRouter />
   </head>
   <body>
-    <a class="skip-link" href="#content">본문으로 이동</a>
+    <a class={styles.skipLink} href="#content">본문으로 이동</a>
     <RainOverlay enabled={true} intensity="drizzle" />
 
-    <div class="site-shell">
-      <header class="site-header">
-        <a class="site-title" href="/" aria-label={`${siteConfig.name} 홈`}>
+    <div class={styles.siteShell} data-site-shell>
+      <header class={styles.siteHeader}>
+        <a class={styles.siteTitle} href="/" aria-label={`${siteConfig.name} 홈`}>
           <img
-            class="site-title-logo"
+            class={styles.siteTitleLogo}
             src={siteConfig.logo}
             alt={siteConfig.name}
             width="950"
@@ -63,7 +64,7 @@ const rssUrl = new URL(siteConfig.links.rss, siteUrl).toString();
           />
         </a>
 
-        <nav class="site-nav" aria-label="주요 메뉴">
+        <nav class={styles.siteNav} aria-label="주요 메뉴">
           {
             siteConfig.nav.map((item) => (
               <a href={item.href} aria-current={currentPath === item.href ? "page" : undefined}>
@@ -75,11 +76,11 @@ const rssUrl = new URL(siteConfig.links.rss, siteUrl).toString();
         </nav>
       </header>
 
-      <main id="content" class="site-main">
+      <main id="content" class={styles.siteMain} data-site-main>
         <slot />
       </main>
 
-      <footer class="site-footer">
+      <footer class={styles.siteFooter}>
         <p>Copyright © 2026 All Right {siteConfig.author}</p>
         <ul aria-label="사이트 정보">
           <li>
@@ -99,169 +100,3 @@ const rssUrl = new URL(siteConfig.links.rss, siteUrl).toString();
     </div>
   </body>
 </html>
-
-<style>
-  .skip-link {
-    position: fixed;
-    top: var(--space-4);
-    left: var(--space-4);
-    z-index: 10;
-    padding: var(--space-2) var(--space-3);
-    border: 1px solid var(--color-border-strong);
-    border-radius: var(--radius-sm);
-    background: var(--color-bg-soft);
-    color: var(--color-text);
-    font-weight: 700;
-    text-decoration: none;
-    transform: translateY(-6rem);
-    transition: transform 160ms ease;
-  }
-
-  .skip-link:focus-visible {
-    transform: translateY(0);
-  }
-
-  .site-shell {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    min-height: 100dvh;
-    width: min(100% - 2rem, var(--page-width));
-    grid-template-rows: auto 1fr auto;
-    margin: 0 auto;
-  }
-
-  .site-header {
-    display: flex;
-    min-height: var(--nav-height);
-    gap: var(--space-5);
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--color-border);
-    color: var(--color-text-muted);
-  }
-
-  .site-title {
-    display: inline-flex;
-    flex: 0 0 auto;
-    align-items: center;
-    color: var(--color-text);
-    font-family: var(--font-heading);
-    font-size: 1rem;
-    font-weight: 900;
-    line-height: 1.1;
-    text-decoration: none;
-  }
-
-  .site-title-logo {
-    display: block;
-    width: auto;
-    height: 3rem;
-    object-fit: contain;
-  }
-
-  .site-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    row-gap: var(--space-1);
-    align-items: center;
-    justify-content: flex-end;
-    font-size: 0.9375rem;
-  }
-
-  .site-nav a {
-    min-width: 2.625rem;
-    padding: 0.35rem 0.55rem;
-    border-radius: var(--radius-sm);
-    color: inherit;
-    line-height: 1.2;
-    text-align: center;
-    text-decoration: none;
-  }
-
-  .site-nav a:hover,
-  .site-nav a[aria-current="page"] {
-    background: var(--color-surface);
-    color: var(--color-text);
-  }
-
-  .site-main {
-    padding: var(--space-8) 0;
-  }
-
-  .site-footer {
-    display: grid;
-    gap: var(--space-1);
-    padding: var(--space-5) 0;
-    border-top: 1px solid var(--color-border);
-    color: var(--color-text-subtle);
-  }
-
-  .site-footer p {
-    margin-bottom: 0;
-    font-size: 0.875rem;
-    line-height: 1.35;
-  }
-
-  .site-footer ul {
-    display: flex;
-    flex-wrap: wrap;
-    column-gap: var(--space-2);
-    row-gap: 0.15rem;
-    padding: 0;
-    margin: 0;
-    font-size: 0.875rem;
-    line-height: 1.35;
-    list-style: none;
-  }
-
-  .site-footer li {
-    display: inline-flex;
-    gap: var(--space-1);
-    align-items: center;
-    margin: 0;
-  }
-
-  .site-footer li + li::before {
-    color: var(--color-text-subtle);
-    content: ".";
-  }
-
-  .site-footer a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .site-footer a:hover {
-    color: var(--color-link-hover);
-  }
-
-  @media (max-width: 48rem) {
-    .site-shell {
-      width: min(100% - 1.25rem, var(--page-width));
-    }
-
-    .site-header {
-      min-height: auto;
-      gap: var(--space-2);
-      align-items: center;
-      padding: var(--space-4) 0;
-    }
-
-    .site-title-logo {
-      height: 2rem;
-    }
-
-    .site-main {
-      padding: var(--space-7) 0;
-    }
-
-    .site-nav {
-      flex: 1 1 auto;
-      flex-wrap: nowrap;
-      justify-content: flex-end;
-      gap: var(--space-1);
-    }
-  }
-</style>

@@ -1,0 +1,66 @@
+.rainSoundOwner {
+  display: flex;
+  align-items: center;
+}
+
+.rainSoundToggle {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  box-sizing: border-box;
+  border: 0;
+  border-color: transparent;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: none !important;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  line-height: 1;
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rainSoundToggle::-moz-focus-inner {
+  border: 0;
+}
+
+.rainSoundToggleIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.rainSoundToggleIcon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: currentColor;
+}
+
+.rainSoundToggle:hover,
+.rainSoundToggle:active,
+.rainSoundToggle:focus,
+.rainSoundToggle:focus-visible,
+.rainSoundToggle:focus-within,
+.rainSoundOwner[data-state="on"] .rainSoundToggle {
+  border-color: transparent;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: var(--color-text);
+}
+
+.rainSoundToggle:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
