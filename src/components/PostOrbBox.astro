@@ -18,7 +18,13 @@ interface Props {
 const { posts } = Astro.props;
 ---
 
-<section class={styles.postOrbBox} data-post-orb-box data-count={String(posts.length)} data-state="fallback" aria-labelledby="post-orb-box-title">
+<section
+  class={styles.postOrbBox}
+  data-post-orb-box
+  data-count={String(posts.length)}
+  data-state={posts.length > 0 ? "initializing" : "fallback"}
+  aria-labelledby="post-orb-box-title"
+>
   {
     posts.length > 0 ? (
       <div class={styles.postOrbBoxField} data-post-orb-field>

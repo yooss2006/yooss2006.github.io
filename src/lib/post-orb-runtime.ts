@@ -5,7 +5,6 @@ const MAX_FIELD_HEIGHT = 520;
 const WALL_THICKNESS = 80;
 const ORB_RADIUS_MIN = 24;
 const ORB_RADIUS_MAX = 40;
-const DROP_GAP = 28;
 const RESIZE_SETTLE_MS = 120;
 
 type MatterModule = typeof import("matter-js");
@@ -101,7 +100,7 @@ function buildOrbs(matter: MatterModule, anchors: readonly HTMLElement[], size: 
     const radius = cappedRadius(anchor, safeWidth, anchors.length);
     const laneCount = Math.max(1, anchors.length);
     const x = ((index + 1) * safeWidth) / (laneCount + 1);
-    const y = drop ? -(index + 1) * (radius + DROP_GAP) : size.height - radius;
+    const y = drop ? radius : size.height - radius;
     const body = Bodies.circle(x, y, radius, { restitution: 0.58, friction: 0.08, frictionAir: 0.018, density: 0.0012 });
 
     return { anchor, body, radius };

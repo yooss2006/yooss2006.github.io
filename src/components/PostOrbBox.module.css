@@ -24,7 +24,7 @@
   position: relative;
   display: grid;
   max-width: var(--page-width);
-  min-height: 22.5rem;
+  min-height: 320px;
   grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
   gap: var(--space-4);
   overflow: hidden;
@@ -83,6 +83,18 @@
   aspect-ratio: 1;
   min-height: auto;
   will-change: transform;
+}
+
+.postOrbBox[data-state="initializing"] .postOrb {
+  opacity: 0;
+  pointer-events: none;
+  transition: none;
+  visibility: hidden;
+}
+
+.postOrbBox[data-state="active"] .postOrb {
+  opacity: 1;
+  visibility: visible;
 }
 
 .postOrb[data-tone="1"] {
