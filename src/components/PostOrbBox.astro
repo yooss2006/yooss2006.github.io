@@ -1,0 +1,188 @@
+---
+export type PostOrb = {
+  readonly slug: string;
+  readonly href: string;
+  readonly title: string;
+  readonly description: string;
+  readonly category: string;
+  readonly tone: number;
+  readonly index: number;
+};
+
+interface Props {
+  readonly posts: readonly PostOrb[];
+}
+
+const { posts } = Astro.props;
+---
+
+<section class="post-orb-box" data-post-orb-box data-count={String(posts.length)} data-state="fallback" aria-labelledby="post-orb-box-title">
+  {
+    posts.length > 0 ? (
+      <div class="post-orb-box__field" data-post-orb-field>
+        {posts.map((post) => (
+          <a
+            class="post-orb"
+            data-post-orb
+            data-title={post.title}
+            data-tone={String(post.tone)}
+            data-index={String(post.index)}
+            href={post.href}
+            aria-label={`${post.title} 글로 이동`}
+            title={post.title}
+            tabindex="0"
+          >
+          </a>
+        ))}
+      </div>
+    ) : (
+      <p class="post-orb-box__empty">아직 공개된 글이 없습니다.</p>
+    )
+  }
+</section>
+
+<script>
+  import { initializePostOrbBoxes } from "@/lib/post-orb-runtime";
+
+  initializePostOrbBoxes();
+</script>
+
+<style>
+  .post-orb-box { max-width: var(--page-width); margin-top: var(--space-4); }
+
+  .post-orb-box__header { max-width: var(--content-width); margin-bottom: var(--space-5); }
+
+  .post-orb-box__eyebrow {
+    margin-bottom: var(--space-2);
+    color: var(--color-accent);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .post-orb-box__header h2 { margin-top: 0; }
+
+  .post-orb-box__field {
+    position: relative;
+    display: grid;
+    max-width: var(--page-width);
+    min-height: 22.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
+    gap: var(--space-4);
+    overflow: hidden;
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background:
+      radial-gradient(circle at 18% 12%, rgb(200 220 225 / 8%), transparent 18rem),
+      linear-gradient(180deg, var(--color-surface-strong), var(--color-surface));
+  }
+
+  .post-orb-box[data-count="1"] .post-orb-box__field {
+    justify-items: center;
+  }
+
+  .post-orb-box[data-count="1"] .post-orb {
+    width: 4rem;
+  }
+
+  .post-orb-box[data-state="active"] .post-orb-box__field,
+  .post-orb-box[data-state="initializing"] .post-orb-box__field { display: block; }
+
+  .post-orb {
+    --orb-tint: rgb(246 241 232 / 8%);
+    --orb-rim: var(--color-border);
+    --orb-glint: rgb(200 220 225 / 16%);
+
+    position: relative;
+    display: block;
+    width: 4rem;
+    min-height: 4rem;
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid var(--orb-rim);
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 34% 24%, var(--orb-glint), transparent 34%),
+      radial-gradient(circle at 66% 74%, rgb(209 161 95 / 10%), transparent 36%),
+      var(--orb-tint);
+    color: var(--color-text);
+    text-decoration: none;
+    transition:
+      border-color 180ms ease,
+      background 180ms ease,
+      color 180ms ease;
+  }
+
+  .post-orb-box[data-state="active"] .post-orb,
+  .post-orb-box[data-state="initializing"] .post-orb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: clamp(3.5rem, 7vw, 5rem);
+    aspect-ratio: 1;
+    min-height: auto;
+    will-change: transform;
+  }
+
+  .post-orb[data-tone="1"] { --orb-tint: rgb(200 220 225 / 7%); --orb-glint: rgb(237 248 250 / 14%); }
+
+  .post-orb[data-tone="2"] { --orb-tint: rgb(209 161 95 / 8%); --orb-glint: rgb(226 179 111 / 14%); }
+
+  .post-orb[data-tone="3"] { --orb-tint: rgb(246 241 232 / 6%); --orb-rim: var(--color-border-strong); }
+
+  .post-orb[data-tone="4"] { --orb-tint: rgb(169 130 77 / 10%); --orb-glint: rgb(240 237 231 / 12%); }
+
+  .post-orb[data-tone="5"] { --orb-tint: rgb(18 19 21 / 36%); --orb-glint: rgb(200 220 225 / 12%); }
+
+  .post-orb:hover { border-color: var(--color-border-strong); color: var(--color-link-hover); }
+
+  .post-orb:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 5px; }
+
+  @media (hover: hover) and (pointer: fine) {
+    .post-orb::after {
+      position: absolute;
+      bottom: calc(100% + 0.65rem);
+      left: 50%;
+      z-index: 2;
+      max-width: 15rem;
+      padding: var(--space-2) var(--space-3);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-sm);
+      background: var(--color-bg-soft);
+      color: var(--color-text);
+      content: attr(data-title);
+      font-size: 0.8125rem;
+      line-height: 1.35;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 0.25rem);
+      transition:
+        opacity 140ms ease,
+        transform 140ms ease;
+      white-space: nowrap;
+    }
+
+    .post-orb:hover::after,
+    .post-orb:focus-visible::after {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+
+  .post-orb-box__empty { padding: var(--space-5); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); }
+
+  @media (max-width: 48rem) {
+    .post-orb-box__field {
+      min-height: 18rem;
+      padding: var(--space-4);
+    }
+
+    .post-orb-box[data-state="active"] .post-orb,
+    .post-orb-box[data-state="initializing"] .post-orb { width: clamp(3rem, 16vw, 3.75rem); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .post-orb { transition: none; }
+  }
+</style>
