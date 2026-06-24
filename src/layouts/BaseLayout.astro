@@ -14,6 +14,7 @@ interface Props {
 }
 
 const { title, description, currentPath, ogType = "website" } = Astro.props;
+const isHome = currentPath === "/";
 const siteUrl = Astro.site ?? new URL(siteConfig.url);
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 const ogImageUrl = new URL(siteConfig.ogImage, siteUrl).toString();
@@ -53,7 +54,7 @@ const rssUrl = new URL(siteConfig.links.rss, siteUrl).toString();
 
     <div class={styles.siteShell} data-site-shell>
       <header class={styles.siteHeader}>
-        <a class={styles.siteTitle} href="/" aria-label={`${siteConfig.name} 홈`}>
+        <a class={styles.siteTitle} href={isHome ? undefined : "/"} aria-current={isHome ? "page" : undefined} aria-label={`${siteConfig.name} 홈`}>
           <img
             class={styles.siteTitleLogo}
             src={siteConfig.logo}
