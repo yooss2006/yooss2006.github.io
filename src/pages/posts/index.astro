@@ -1,7 +1,9 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { postCategories } from "@/config/postCategories";
 import { getPageTitle, siteConfig } from "@/config/site";
 import { formatPostDate, getPostSlug, getPublishedPosts } from "@/lib/posts";
+import styles from "./index.module.css";
 
 const posts = await getPublishedPosts();
 const pageTitle = getPageTitle("글");
@@ -9,41 +11,201 @@ const description = `${siteConfig.name}의 전체 글 목록입니다.`;
 ---
 
 <BaseLayout title={pageTitle} description={description} currentPath="/posts/">
-  <header>
+  <script is:inline>
+    try {
+      const selectedCategory =
+        new URLSearchParams(window.location.search).get("category") ??
+        sessionStorage.getItem("rainy-notes:selected-post-category");
+
+      if (selectedCategory && selectedCategory !== "all") {
+        document.documentElement.dataset.postFilterPending = "true";
+      }
+    } catch {
+      document.documentElement.removeAttribute("data-post-filter-pending");
+    }
+  </script>
+
+  <header class={styles.pageHeader}>
     <p>posts</p>
-    <h1>글</h1>
-    <p>개발과 일상 기록을 최신순으로 모았습니다.</p>
+    <h1>조용히 쌓이는 것들</h1>
+    <p>개발하며 배운 것과 살아가며 느낀 것을 남깁니다.</p>
   </header>
 
-  <section aria-labelledby="post-list-title">
-    <h2 id="post-list-title">전체 글</h2>
+  <section class={styles.postSection} aria-labelledby="post-list-title">
+    <div class={styles.sectionHeader}>
+      <h2 id="post-list-title">글 목록</h2>
+      <nav class={styles.categoryFilter} aria-label="글 분류" role="radiogroup" data-category-filter>
+        <span class={styles.categoryIndicator} data-category-indicator aria-hidden="true"></span>
+        <a href="/posts/" role="radio" aria-checked="true" data-category-value="all">전체</a>
+        {
+          postCategories.map((category) => (
+            <a
+              href={`/posts/?category=${category.value}`}
+              role="radio"
+              aria-checked="false"
+              data-category-value={category.value}
+            >
+              {category.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
     {
       posts.length > 0 ? (
-        <ol>
+        <ol class={styles.postList} data-post-list>
           {posts.map((post) => {
             const slug = getPostSlug(post);
             const publishedAt = formatPostDate(post.data.publishedAt);
+            const categoryValue = postCategories.find((category) => category.label === post.data.category)?.value;
 
             return (
-              <li>
+              <li data-post-category={categoryValue}>
                 <article>
-                  {post.data.thumbnail && <img src={post.data.thumbnail} alt="" loading="lazy" />}
-                  <p>{post.data.category}</p>
-                  <h3>
-                    <a href={`/posts/${slug}/`}>{post.data.title}</a>
-                  </h3>
-                  <p>
-                    <time datetime={post.data.publishedAt.toISOString()}>{publishedAt}</time>
-                  </p>
-                  <p>{post.data.description}</p>
+                  <a
+                    class:list={[styles.postCard, post.data.thumbnail && styles.withThumbnail]}
+                    href={`/posts/${slug}/`}
+                    aria-label={`${post.data.title} 읽기`}
+                  >
+                    {
+                      post.data.thumbnail && (
+                        <img
+                          class={styles.thumbnail}
+                          src={post.data.thumbnail}
+                          alt={`${post.data.title} 썸네일`}
+                          width="320"
+                          height="180"
+                          loading="lazy"
+                        />
+                      )
+                    }
+                    <div class={styles.postBody}>
+                      <div class={styles.postMeta}>
+                        <span>{post.data.category}</span>
+                        {
+                          post.data.tags.length > 0 && (
+                            <ul class={styles.tagList} aria-label="태그">
+                              {post.data.tags.map((tag) => (
+                                <li>{tag}</li>
+                              ))}
+                            </ul>
+                          )
+                        }
+                      </div>
+                      <h3>{post.data.title}</h3>
+                      <p class={styles.postDate}>
+                        <time datetime={post.data.publishedAt.toISOString()}>{publishedAt}</time>
+                      </p>
+                      <p>{post.data.description}</p>
+                    </div>
+                  </a>
                 </article>
               </li>
             );
           })}
         </ol>
       ) : (
-        <p>아직 공개된 글이 없습니다.</p>
+        <p class={styles.emptyMessage}>아직 공개된 글이 없습니다.</p>
       )
     }
+    <p class={styles.emptyMessage} data-empty-message hidden>아직 이 분류에 공개된 글이 없습니다.</p>
   </section>
 </BaseLayout>
+
+<script>
+  const categoryStorageKey = "rainy-notes:selected-post-category";
+
+  function getStoredCategory() {
+    try {
+      return sessionStorage.getItem(categoryStorageKey);
+    } catch {
+      return null;
+    }
+  }
+
+  function setStoredCategory(category: string) {
+    try {
+      sessionStorage.setItem(categoryStorageKey, category);
+    } catch {
+      return;
+    }
+  }
+
+  function getSelectedCategory() {
+    const categoryValues = new Set(
+      [...document.querySelectorAll<HTMLElement>("[data-category-value]")]
+        .map((item) => item.dataset.categoryValue)
+        .filter((value): value is string => Boolean(value) && value !== "all"),
+    );
+    const category = new URLSearchParams(window.location.search).get("category");
+    if (category && categoryValues.has(category)) {
+      setStoredCategory(category);
+      return category;
+    }
+
+    const storedCategory = getStoredCategory();
+    return storedCategory && categoryValues.has(storedCategory) ? storedCategory : "all";
+  }
+
+  function applyCategoryFilter() {
+    const selectedCategory = getSelectedCategory();
+    const postItems = [...document.querySelectorAll<HTMLElement>("[data-post-category]")];
+    const emptyMessage = document.querySelector<HTMLElement>("[data-empty-message]");
+    const activeControl = document.querySelector<HTMLElement>(`[data-category-value="${selectedCategory}"]`);
+    const isInitialRestore = document.documentElement.dataset.postFilterPending === "true";
+    let visibleCount = 0;
+
+    for (const item of postItems) {
+      const isVisible = selectedCategory === "all" || item.dataset.postCategory === selectedCategory;
+      item.hidden = !isVisible;
+      if (isVisible) visibleCount += 1;
+    }
+
+    for (const control of document.querySelectorAll<HTMLElement>("[data-category-value]")) {
+      control.setAttribute("aria-checked", control.dataset.categoryValue === selectedCategory ? "true" : "false");
+    }
+
+    if (emptyMessage) {
+      emptyMessage.hidden = visibleCount > 0;
+    }
+
+    if (activeControl) {
+      const categoryFilter = activeControl.closest<HTMLElement>("[data-category-filter]");
+      if (categoryFilter) {
+        if (isInitialRestore) {
+          categoryFilter.dataset.skipIndicatorTransition = "true";
+        }
+
+        categoryFilter.style.setProperty("--active-left", `${activeControl.offsetLeft}px`);
+        categoryFilter.style.setProperty("--active-width", `${activeControl.offsetWidth}px`);
+
+        if (isInitialRestore) {
+          categoryFilter.offsetWidth;
+          requestAnimationFrame(() => {
+            delete categoryFilter.dataset.skipIndicatorTransition;
+          });
+        }
+      }
+    }
+
+    document.documentElement.removeAttribute("data-post-filter-pending");
+  }
+
+  document.addEventListener("click", (event) => {
+    const target =
+      event.target instanceof Element ? event.target.closest<HTMLAnchorElement>("[data-category-filter] a") : null;
+    if (!target) {
+      return;
+    }
+
+    event.preventDefault();
+    setStoredCategory(target.dataset.categoryValue ?? "all");
+    window.history.pushState(null, "", target.href);
+    applyCategoryFilter();
+  }, { capture: true });
+
+  window.addEventListener("popstate", applyCategoryFilter);
+  window.addEventListener("resize", applyCategoryFilter);
+  document.addEventListener("astro:page-load", applyCategoryFilter);
+  requestAnimationFrame(applyCategoryFilter);
+</script>

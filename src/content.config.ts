@@ -1,8 +1,7 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
-
-const postCategories = ["개발", "일상", "메모"] as const;
+import { postCategoryLabels } from "@/config/postCategories";
 
 const postDate = z.coerce
   .date()
@@ -16,7 +15,7 @@ const posts = defineCollection({
     description: z.string().trim().min(1),
     publishedAt: postDate,
     updatedAt: postDate.optional(),
-    category: z.enum(postCategories),
+    category: z.enum(postCategoryLabels),
     tags: z.array(z.string().trim().min(1)).default([]),
     thumbnail: z.string().trim().startsWith("/").optional(),
     draft: z.boolean().default(false),

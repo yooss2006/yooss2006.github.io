@@ -41,7 +41,7 @@ Text-first rule: headings, summaries, dates, tags, and body copy must remain rea
 
 ## 4. Spacing & Layout
 
-The spacing scale is already defined as rem tokens.
+Spacing follows a 4px grid. All layout spacing, padding, gaps, and offsets must use the spacing tokens below or another value that is an exact 4px multiple. Do not introduce 10px, 14px, 18px, 30px, or other off-grid spacing for layout rhythm.
 
 | Token | Value |
 |---|---:|
@@ -49,12 +49,13 @@ The spacing scale is already defined as rem tokens.
 | `--space-2` | `0.5rem` |
 | `--space-3` | `0.75rem` |
 | `--space-4` | `1rem` |
+| `--space-4-5` | `1.25rem` |
 | `--space-5` | `1.5rem` |
 | `--space-6` | `2rem` |
 | `--space-7` | `3rem` |
 | `--space-8` | `4rem` |
 
-Layout tokens: `--content-width: 44rem`, `--page-width: 66rem`, `--nav-height: 4.75rem`. Radius tokens: `--radius-sm: 0.25rem`, `--radius-md: 0.5rem`. Keep post-reading layouts constrained to content width unless a decorative background layer explicitly needs page width.
+Use `--space-4-5` only when the rhythm needs a 20px step between 16px and 24px. Layout tokens: `--content-width: 44rem`, `--page-width: 66rem`, `--nav-height: 4.75rem`. Radius tokens: `--radius-sm: 0.25rem`, `--radius-md: 0.5rem`. Keep post-reading layouts constrained to content width unless a decorative background layer explicitly needs page width.
 
 ## 5. Components
 
