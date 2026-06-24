@@ -1,6 +1,8 @@
 .omx/
+.omo/
 .astro/
 dist/
 node_modules/
 .pnpm-store/
 docs/superpowers/
+.DS_Store
