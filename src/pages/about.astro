@@ -1,7 +1,8 @@
 ---
 import { getEntry, render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getPageTitle } from "@/config/site";
+import { getPageTitle, siteConfig } from "@/config/site";
+import styles from "./about.module.css";
 
 const aboutPage = await getEntry("pages", "about");
 if (!aboutPage) {
@@ -10,13 +11,13 @@ if (!aboutPage) {
 
 const { Content: AboutContent } = await render(aboutPage);
 const pageTitle = getPageTitle(aboutPage.data.title);
+const pageDescription = aboutPage.data.description ?? siteConfig.description;
 ---
 
-<BaseLayout title={pageTitle} description={aboutPage.data.description} currentPath="/about/">
-  <header>
+<BaseLayout title={pageTitle} description={pageDescription} currentPath="/about/">
+  <header class={styles.pageHeader}>
     {aboutPage.data.eyebrow && <p>{aboutPage.data.eyebrow}</p>}
     <h1>{aboutPage.data.title}</h1>
-    <p>{aboutPage.data.description}</p>
   </header>
 
   <AboutContent />

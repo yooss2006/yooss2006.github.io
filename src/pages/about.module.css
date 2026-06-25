@@ -1,0 +1,16 @@
+:global(body > [data-site-shell] > [data-site-main]) .pageHeader {
+  margin-bottom: var(--space-5);
+}
+
+.pageHeader h1 {
+  margin-bottom: 0;
+}
+
+:global(.aboutIllustration) {
+  max-width: var(--content-width);
+  margin: var(--space-4) auto;
+}
+
+:global(.aboutIllustration img) {
+  border-radius: var(--radius-md);
+}
