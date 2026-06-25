@@ -1,11 +1,11 @@
 .postOrbBox {
-  max-width: var(--page-width);
-  margin-top: var(--space-4);
+  max-width: var(--content-width);
+  margin: var(--space-4) auto 0;
 }
 
 .postOrbBoxHeader {
   max-width: var(--content-width);
-  margin-bottom: var(--space-5);
+  margin: 0 auto var(--space-5);
 }
 
 .postOrbBoxEyebrow {
@@ -23,7 +23,9 @@
 .postOrbBoxField {
   position: relative;
   display: grid;
-  max-width: var(--page-width);
+  max-width: var(--content-width);
+  margin-right: auto;
+  margin-left: auto;
   min-height: 320px;
   grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
   gap: var(--space-4);

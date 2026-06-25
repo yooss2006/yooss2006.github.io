@@ -145,11 +145,13 @@ h1 {
 }
 
 h2 {
+  max-width: var(--content-width);
   margin-top: var(--space-7);
   font-size: 1.5rem;
 }
 
 h3 {
+  max-width: var(--content-width);
   font-size: 1.125rem;
 }
 
@@ -174,7 +176,15 @@ li {
 }
 
 body > [data-site-shell] > [data-site-main] > header {
+  max-width: var(--content-width);
+  margin-right: auto;
   margin-bottom: var(--space-7);
+  margin-left: auto;
+}
+
+body > [data-site-shell] > [data-site-main] > :where(h1, h2, h3, p, ul, ol, article) {
+  margin-right: auto;
+  margin-left: auto;
 }
 
 body > [data-site-shell] > [data-site-main] > header > p:first-child,
@@ -198,6 +208,8 @@ section > ol {
   max-width: var(--content-width);
   gap: var(--space-4);
   padding: 0;
+  margin-right: auto;
+  margin-left: auto;
   list-style: none;
 }
 
