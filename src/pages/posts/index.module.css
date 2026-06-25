@@ -134,22 +134,31 @@
 
 .postCard::before {
   position: absolute;
-  inset: 0;
-  background: var(--color-surface-strong);
-  content: "";
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 160ms ease;
-}
-
-.postCard::after {
-  position: absolute;
   inset: var(--space-4-5) auto var(--space-4-5) 0;
   width: var(--space-1);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   background: var(--color-accent);
   content: "";
+  pointer-events: none;
   opacity: 0.76;
+}
+
+.postCard::after {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  right: var(--space-5);
+  width: var(--space-2);
+  height: var(--space-2);
+  border-top: 1px solid var(--color-text-muted);
+  border-right: 1px solid var(--color-text-muted);
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-0.25rem, -50%) rotate(45deg);
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
 }
 
 .postBody,
@@ -158,44 +167,27 @@
   z-index: 1;
 }
 
-.postCard h3::after {
-  position: absolute;
-  top: var(--space-4-5);
-  right: var(--space-4-5);
-  width: var(--space-2);
-  height: var(--space-2);
-  border-top: 1px solid var(--color-border-strong);
-  border-right: 1px solid var(--color-border-strong);
-  content: "";
-  opacity: 0;
-  transform: translate(-0.25rem, 0.25rem) rotate(45deg);
-  transition:
-    opacity 160ms ease,
-    transform 160ms ease;
-}
-
 .postCard:hover {
   border-color: var(--color-border-strong);
 }
 
-.postCard:hover::before {
+.postCard:hover::after,
+.postCard:focus-visible::after {
   opacity: 1;
-}
-
-.postCard:hover h3::after {
-  opacity: 1;
-  transform: translate(0, 0) rotate(45deg);
+  transform: translate(0, -50%) rotate(45deg);
 }
 
 .withThumbnail {
   grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr);
-  gap: var(--space-5);
-  align-items: start;
+  gap: var(--space-4);
+  align-items: stretch;
 }
 
 .thumbnail {
   display: block;
   width: 100%;
+  height: 100%;
+  min-height: 7rem;
   aspect-ratio: 16 / 9;
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-border);
@@ -253,7 +245,7 @@
 
 .postCard .postDate {
   margin-top: var(--space-1);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-3);
   color: var(--color-text-subtle);
   font-size: 0.875rem;
   line-height: 1.4;
@@ -266,6 +258,7 @@
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  line-height: 1.65;
 }
 
 .emptyMessage {

@@ -49,6 +49,57 @@ const rssUrl = new URL(siteConfig.links.rss, siteUrl).toString();
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
     <title>{title}</title>
+    <script is:inline>
+      (() => {
+        const key = `rainy-notes:scroll:${location.pathname}${location.search}`;
+        const storage = (() => {
+          try {
+            return sessionStorage;
+          } catch {
+            return null;
+          }
+        })();
+        const storedY = Number(storage?.getItem(key) || 0);
+        const navigationType = performance.getEntriesByType("navigation")[0]?.type;
+        const shouldRestore = storedY > 0 && (!navigationType || navigationType === "reload" || navigationType === "back_forward");
+
+        if (shouldRestore) {
+          document.documentElement.dataset.scrollRestoring = "true";
+        }
+
+        const saveScroll = () => {
+          storage?.setItem(key, String(Math.round(scrollY)));
+        };
+
+        addEventListener("pagehide", saveScroll);
+        addEventListener("beforeunload", saveScroll);
+
+        if (!shouldRestore) {
+          return;
+        }
+
+        const reveal = () => {
+          delete document.documentElement.dataset.scrollRestoring;
+        };
+
+        const restore = (attempt = 0) => {
+          scrollTo(0, storedY);
+
+          if (Math.abs(scrollY - storedY) <= 2 || attempt >= 20) {
+            requestAnimationFrame(reveal);
+            return;
+          }
+
+          requestAnimationFrame(() => restore(attempt + 1));
+        };
+
+        if (document.readyState === "loading") {
+          addEventListener("DOMContentLoaded", () => restore(), { once: true });
+        } else {
+          restore();
+        }
+      })();
+    </script>
     <ClientRouter />
   </head>
   <body>

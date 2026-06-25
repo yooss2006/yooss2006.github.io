@@ -85,6 +85,7 @@
 }
 
 .siteMain {
+  min-width: 0;
   padding: var(--space-8) 0;
 }
 

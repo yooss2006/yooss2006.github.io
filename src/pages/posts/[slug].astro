@@ -1,8 +1,9 @@
 ---
 import { render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getPageTitle } from "@/config/site";
+import { getPageTitle, siteConfig } from "@/config/site";
 import { formatPostDate, getPublishedPosts, getPostSlug } from "@/lib/posts";
+import styles from "./post.module.css";
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();
@@ -18,29 +19,28 @@ const { Content } = await render(post);
 const publishedAt = formatPostDate(post.data.publishedAt);
 const updatedAt = post.data.updatedAt ? formatPostDate(post.data.updatedAt) : undefined;
 const pageTitle = getPageTitle(post.data.title);
+const thumbnail = post.data.thumbnail ?? siteConfig.ogImage;
 ---
 
 <BaseLayout title={pageTitle} description={post.data.description} ogType="article">
-  <article>
-    <header>
-      <p>{post.data.category}</p>
-      <h1>{post.data.title}</h1>
-      <p>{post.data.description}</p>
-      <p>
+  <article class={styles.postArticle}>
+    <header class={styles.postHeader}>
+      <div class={styles.metaLine}>
+        <span>{post.data.category}</span>
         <time datetime={post.data.publishedAt.toISOString()}>{publishedAt}</time>
         {
           updatedAt && (
-            <>
-              {" "}
-              <span>수정: </span>
-              <time datetime={post.data.updatedAt?.toISOString()}>{updatedAt}</time>
-            </>
+            <span>
+              수정 <time datetime={post.data.updatedAt?.toISOString()}>{updatedAt}</time>
+            </span>
           )
         }
-      </p>
+      </div>
+      <h1>{post.data.title}</h1>
+      <p class={styles.description}>{post.data.description}</p>
       {
         post.data.tags.length > 0 && (
-          <ul aria-label="태그">
+          <ul class={styles.tagList} aria-label="태그">
             {post.data.tags.map((tag) => (
               <li>{tag}</li>
             ))}
@@ -49,6 +49,20 @@ const pageTitle = getPageTitle(post.data.title);
       }
     </header>
 
-    <Content />
+    <figure class={styles.heroFigure}>
+      <img
+        src={thumbnail}
+        alt={`${post.data.title} 대표 이미지`}
+        width="1200"
+        height="630"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+    </figure>
+
+    <div class={styles.postContent}>
+      <Content />
+    </div>
   </article>
 </BaseLayout>

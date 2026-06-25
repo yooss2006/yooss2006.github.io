@@ -6,6 +6,10 @@ import { postCategoryLabels } from "@/config/postCategories";
 const postDate = z.coerce
   .date()
   .refine((date) => !Number.isNaN(date.valueOf()), "날짜는 YYYY-MM-DD 형식으로 입력합니다.");
+const imageSource = z.string().trim().refine(
+  (value) => value.startsWith("/") || z.string().url().safeParse(value).success,
+  "이미지는 /로 시작하는 정적 경로 또는 URL이어야 합니다.",
+);
 
 const posts = defineCollection({
   loader: glob({ base: "./src/content/posts", pattern: "**/*.{md,mdx}" }),
@@ -17,7 +21,7 @@ const posts = defineCollection({
     updatedAt: postDate.optional(),
     category: z.enum(postCategoryLabels),
     tags: z.array(z.string().trim().min(1)).default([]),
-    thumbnail: z.string().trim().startsWith("/").optional(),
+    thumbnail: imageSource.optional(),
     draft: z.boolean().default(false),
   }),
 });
