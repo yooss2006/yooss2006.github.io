@@ -1,0 +1,36 @@
+---
+import LottieAnimation from "@/components/LottieAnimation.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getPageTitle, siteConfig } from "@/config/site";
+import styles from "./404.module.css";
+
+const title = getPageTitle("페이지를 찾을 수 없습니다");
+const description = `${siteConfig.name}에서 요청한 페이지를 찾을 수 없습니다.`;
+---
+
+<BaseLayout title={title} description={description}>
+  <section class={styles.notFound} aria-labelledby="not-found-title">
+    <div class={styles.notFoundMarker} aria-hidden="true">
+      <LottieAnimation className={styles.notFoundSign} src="/animations/404-rain.json" />
+      <span class={styles.notFoundCode}>
+        <span class={styles.digit} style="--wave-index: 0">4</span>
+        <span class={styles.digit} style="--wave-index: 1">0</span>
+        <span class={styles.digit} style="--wave-index: 2">4</span>
+      </span>
+      <span class={styles.notFoundCodeShadow}>
+        <span class={styles.digitShadow} style="--wave-index: 0"></span>
+        <span class={styles.digitShadow} style="--wave-index: 1"></span>
+        <span class={styles.digitShadow} style="--wave-index: 2; --shadow-offset: 1.5rem"></span>
+      </span>
+    </div>
+    <div class={styles.notFoundContent}>
+      <p class={styles.eyebrow}>404</p>
+      <h1 id="not-found-title">없는 페이지입니다.</h1>
+      <p>주소가 바뀌었거나 아직 공개 전입니다. 홈이나 글 목록에서 다시 찾아보세요.</p>
+      <div class={styles.actions} aria-label="다른 페이지로 이동">
+        <a href="/">홈으로</a>
+        <a href="/posts/">글 목록</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

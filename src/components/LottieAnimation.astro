@@ -1,0 +1,79 @@
+---
+import styles from "./LottieAnimation.module.css";
+
+interface Props {
+  src: string;
+  className?: string;
+  loop?: boolean;
+}
+
+const { src, className, loop = true } = Astro.props;
+---
+
+<div
+  class:list={[styles.lottieAnimation, className]}
+  data-lottie-animation
+  data-lottie-src={src}
+  data-lottie-loop={String(loop)}
+  aria-hidden="true"
+>
+</div>
+
+<script>
+  import lottie, { type AnimationItem } from "lottie-web/build/player/lottie_light";
+
+  const animationMap = new WeakMap<HTMLElement, AnimationItem>();
+  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  function destroyAnimation(container: HTMLElement) {
+    const animation = animationMap.get(container);
+    if (!animation) return;
+
+    animation.destroy();
+    animationMap.delete(container);
+    container.replaceChildren();
+  }
+
+  function setupAnimation(container: HTMLElement) {
+    if (animationMap.has(container)) return;
+
+    const path = container.dataset.lottieSrc;
+    if (!path || motionQuery.matches) {
+      destroyAnimation(container);
+      return;
+    }
+
+    const animation = lottie.loadAnimation({
+      container,
+      path,
+      renderer: "svg",
+      loop: container.dataset.lottieLoop !== "false",
+      autoplay: true,
+      rendererSettings: {
+        preserveAspectRatio: "xMidYMid slice",
+        progressiveLoad: true,
+      },
+    });
+
+    animationMap.set(container, animation);
+  }
+
+  function setupAnimations() {
+    for (const container of document.querySelectorAll<HTMLElement>("[data-lottie-animation]")) {
+      setupAnimation(container);
+    }
+  }
+
+  motionQuery.addEventListener("change", () => {
+    for (const container of document.querySelectorAll<HTMLElement>("[data-lottie-animation]")) {
+      if (motionQuery.matches) {
+        destroyAnimation(container);
+      } else {
+        setupAnimation(container);
+      }
+    }
+  });
+
+  document.addEventListener("astro:page-load", setupAnimations);
+  setupAnimations();
+</script>
