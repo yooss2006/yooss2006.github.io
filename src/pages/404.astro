@@ -1,5 +1,4 @@
 ---
-import LottieAnimation from "@/components/LottieAnimation.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getPageTitle, siteConfig } from "@/config/site";
 import styles from "./404.module.css";
@@ -11,7 +10,7 @@ const description = `${siteConfig.name}에서 요청한 페이지를 찾을 수 
 <BaseLayout title={title} description={description}>
   <section class={styles.notFound} aria-labelledby="not-found-title">
     <div class={styles.notFoundMarker} aria-hidden="true">
-      <LottieAnimation className={styles.notFoundSign} src="/animations/404-rain.json" />
+      <span class={styles.notFoundSign}></span>
       <span class={styles.notFoundCode}>
         <span class={styles.digit} style="--wave-index: 0">4</span>
         <span class={styles.digit} style="--wave-index: 1">0</span>
