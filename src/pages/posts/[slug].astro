@@ -22,7 +22,20 @@ const pageTitle = getPageTitle(post.data.title);
 const thumbnail = post.data.thumbnail ?? siteConfig.ogImage;
 ---
 
-<BaseLayout title={pageTitle} description={post.data.description} ogType="article">
+<BaseLayout
+  title={pageTitle}
+  description={post.data.description}
+  ogType="article"
+  ogImage={thumbnail}
+  ogImageAlt={`${post.data.title} 대표 이미지`}
+  article={{
+    publishedTime: post.data.publishedAt.toISOString(),
+    modifiedTime: post.data.updatedAt?.toISOString(),
+    author: siteConfig.author,
+    section: post.data.category,
+    tags: post.data.tags,
+  }}
+>
   <article class={styles.postArticle}>
     <header class={styles.postHeader}>
       <div class={styles.metaLine}>

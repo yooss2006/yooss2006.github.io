@@ -7,7 +7,7 @@ const title = getPageTitle("페이지를 찾을 수 없습니다");
 const description = `${siteConfig.name}에서 요청한 페이지를 찾을 수 없습니다.`;
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} robots="noindex">
   <section class={styles.notFound} aria-labelledby="not-found-title">
     <div class={styles.notFoundMarker} aria-hidden="true">
       <span class={styles.notFoundSign}></span>

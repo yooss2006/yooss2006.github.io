@@ -7,7 +7,7 @@ import styles from "./index.module.css";
 
 const posts = await getPublishedPosts();
 const pageTitle = getPageTitle("글");
-const description = `${siteConfig.name}의 전체 글 목록입니다.`;
+const description = `${siteConfig.name}에 쌓아 둔 개발과 일상의 기록을 날짜순으로 둘러봅니다.`;
 ---
 
 <BaseLayout title={pageTitle} description={description} currentPath="/posts/">
