@@ -140,7 +140,7 @@
 
 @media (max-width: 48rem) {
   .siteShell {
-    width: min(100% - 1.25rem, var(--page-width));
+    width: min(100% - 2rem, var(--page-width));
   }
 
   .siteHeader {
@@ -165,12 +165,4 @@
     gap: var(--space-1);
   }
 
-  .siteFooter ul {
-    display: grid;
-    gap: var(--space-1);
-  }
-
-  .siteFooter li + li::before {
-    content: none;
-  }
 }
