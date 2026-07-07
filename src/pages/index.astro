@@ -22,7 +22,7 @@ const postOrbs = posts.map((post, index) => {
     title: post.data.title,
     description: post.data.description,
     category: post.data.category,
-    tone: index % 6,
+    tone: (index % 7) + 1,
     index,
   };
 });

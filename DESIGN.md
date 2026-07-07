@@ -25,7 +25,7 @@ These tokens are extracted from `src/styles/global.css` and are the source of tr
 | Accent muted | `--color-accent-muted` | `#a9824d` | Secondary warm emphasis |
 | Focus | `--color-focus` | `#e2b36f` | Keyboard focus rings |
 
-Orb palette rule: post orbs should stay inside the existing rainy palette: deep canvas tokens, warm accent glints, pale text-tinted glass, and cool link mist. Do not add decorative purple, neon, or brand-red orb colors without updating this file first.
+Orb palette rule: post orbs should stay inside the rainy surface language: dark glass, low-alpha color, soft rim light, and no neon fills. The random post-orb palette has seven muted tones: amber, aqua mist, rain blue, moss, rose, violet, and clay. Each tone should read as colored glass, not a solid badge.
 
 ## 3. Typography
 

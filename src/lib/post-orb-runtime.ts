@@ -5,6 +5,7 @@ const MAX_FIELD_HEIGHT = 520;
 const WALL_THICKNESS = 80;
 const ORB_RADIUS_MIN = 24;
 const ORB_RADIUS_MAX = 40;
+const ORB_TONE_COUNT = 7;
 const RESIZE_SETTLE_MS = 120;
 
 type MatterModule = typeof import("matter-js");
@@ -247,6 +248,10 @@ async function initializePostOrbBox(owner: PostOrbBoxElement): Promise<void> {
     markStatic(owner, anchors, "empty", reduceMotion.matches ? "reduced" : "static");
     return;
   }
+
+  anchors.forEach((anchor) => {
+    anchor.dataset.tone = String(Math.floor(Math.random() * ORB_TONE_COUNT) + 1);
+  });
 
   if (reduceMotion.matches) {
     markStatic(owner, anchors, "static", "reduced");

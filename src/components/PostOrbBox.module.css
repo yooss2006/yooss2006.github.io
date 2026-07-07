@@ -55,6 +55,7 @@
   --orb-tint: rgb(246 241 232 / 8%);
   --orb-rim: var(--color-border);
   --orb-glint: rgb(200 220 225 / 16%);
+  --orb-depth: rgb(209 161 95 / 10%);
 
   position: relative;
   display: block;
@@ -66,7 +67,7 @@
   border-radius: 50%;
   background:
     radial-gradient(circle at 34% 24%, var(--orb-glint), transparent 34%),
-    radial-gradient(circle at 66% 74%, rgb(209 161 95 / 10%), transparent 36%),
+    radial-gradient(circle at 66% 74%, var(--orb-depth), transparent 36%),
     var(--orb-tint);
   color: var(--color-text);
   text-decoration: none;
@@ -100,28 +101,52 @@
 }
 
 .postOrb[data-tone="1"] {
-  --orb-tint: rgb(200 220 225 / 7%);
-  --orb-glint: rgb(237 248 250 / 14%);
+  --orb-tint: rgb(226 179 111 / 24%);
+  --orb-rim: rgb(226 179 111 / 34%);
+  --orb-glint: rgb(255 237 191 / 42%);
+  --orb-depth: rgb(169 130 77 / 24%);
 }
 
 .postOrb[data-tone="2"] {
-  --orb-tint: rgb(209 161 95 / 8%);
-  --orb-glint: rgb(226 179 111 / 14%);
+  --orb-tint: rgb(103 232 249 / 20%);
+  --orb-rim: rgb(165 243 252 / 32%);
+  --orb-glint: rgb(207 250 254 / 38%);
+  --orb-depth: rgb(14 116 144 / 22%);
 }
 
 .postOrb[data-tone="3"] {
-  --orb-tint: rgb(246 241 232 / 6%);
-  --orb-rim: var(--color-border-strong);
+  --orb-tint: rgb(96 165 250 / 22%);
+  --orb-rim: rgb(191 219 254 / 32%);
+  --orb-glint: rgb(219 234 254 / 38%);
+  --orb-depth: rgb(30 64 175 / 22%);
 }
 
 .postOrb[data-tone="4"] {
-  --orb-tint: rgb(169 130 77 / 10%);
-  --orb-glint: rgb(240 237 231 / 12%);
+  --orb-tint: rgb(134 239 172 / 20%);
+  --orb-rim: rgb(187 247 208 / 30%);
+  --orb-glint: rgb(220 252 231 / 34%);
+  --orb-depth: rgb(22 101 52 / 20%);
 }
 
 .postOrb[data-tone="5"] {
-  --orb-tint: rgb(18 19 21 / 36%);
-  --orb-glint: rgb(200 220 225 / 12%);
+  --orb-tint: rgb(251 113 133 / 22%);
+  --orb-rim: rgb(254 205 211 / 32%);
+  --orb-glint: rgb(255 228 230 / 36%);
+  --orb-depth: rgb(159 18 57 / 18%);
+}
+
+.postOrb[data-tone="6"] {
+  --orb-tint: rgb(196 181 253 / 22%);
+  --orb-rim: rgb(221 214 254 / 32%);
+  --orb-glint: rgb(237 233 254 / 36%);
+  --orb-depth: rgb(91 33 182 / 18%);
+}
+
+.postOrb[data-tone="7"] {
+  --orb-tint: rgb(251 146 60 / 22%);
+  --orb-rim: rgb(254 215 170 / 32%);
+  --orb-glint: rgb(255 237 213 / 36%);
+  --orb-depth: rgb(154 52 18 / 18%);
 }
 
 .postOrb:hover {
