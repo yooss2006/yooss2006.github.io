@@ -96,8 +96,16 @@
 }
 
 .postOrbBox[data-state="active"] .postOrb {
+  -webkit-user-drag: none;
+  cursor: grab;
   opacity: 1;
+  touch-action: none;
+  user-select: none;
   visibility: visible;
+}
+
+.postOrbBox[data-state="active"] .postOrb:active {
+  cursor: grabbing;
 }
 
 .postOrb[data-tone="1"] {
