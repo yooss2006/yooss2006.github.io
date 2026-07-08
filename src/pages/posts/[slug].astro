@@ -19,14 +19,17 @@ const { Content } = await render(post);
 const publishedAt = formatPostDate(post.data.publishedAt);
 const updatedAt = post.data.updatedAt ? formatPostDate(post.data.updatedAt) : undefined;
 const pageTitle = getPageTitle(post.data.title);
+const slug = getPostSlug(post);
 const thumbnail = post.data.thumbnail ?? siteConfig.ogImage;
+const generatedOgImageVersion = "20260708";
+const ogImage = post.data.ogImage ?? `/og/posts/${slug}.png?v=${generatedOgImageVersion}`;
 ---
 
 <BaseLayout
   title={pageTitle}
   description={post.data.description}
   ogType="article"
-  ogImage={thumbnail}
+  ogImage={ogImage}
   ogImageAlt={`${post.data.title} 대표 이미지`}
   article={{
     publishedTime: post.data.publishedAt.toISOString(),

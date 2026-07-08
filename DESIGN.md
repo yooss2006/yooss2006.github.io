@@ -68,6 +68,13 @@ Use `--space-4-5` only when the rhythm needs a 20px step between 16px and 24px. 
 - States: hover may lift contrast slightly through existing surface/border tokens; focus must use `--color-focus`.
 - Accessibility: orbs must keep native link behavior, visible keyboard focus, and usable reduced-motion/static fallback. Decorative layers inside or behind the anchor must not intercept pointer events.
 
+### Open Graph post card
+
+- Structure: generated 1200x630 PNG cards summarize one post with blog/category, title, description, date, tags, and site URL.
+- Surface: use `--color-bg`, `--color-bg-soft`, `--color-border`, `--color-text`, `--color-text-muted`, `--color-text-subtle`, `--color-link`, and sparse `--color-accent`.
+- Content: the title remains the largest element; rainy/code-like decoration stays on the right and never competes with the text.
+- Typography: use the existing heading and sans font families embedded into the generated image.
+
 ## 6. Motion & Interaction
 
 Use motion sparingly. Rain and orb movement should animate only `transform` and `opacity`, matching the existing product rule that browser animation primitives do the work instead of per-frame layout changes.

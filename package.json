@@ -15,7 +15,10 @@
     "matter-js": "^0.20.0"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@types/matter-js": "^0.20.2",
-    "@types/node": "^25.9.3"
+    "@types/node": "^25.9.3",
+    "satori": "^0.26.0",
+    "satori-html": "^0.3.2"
   }
 }

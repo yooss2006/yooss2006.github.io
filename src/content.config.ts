@@ -22,6 +22,7 @@ const posts = defineCollection({
     category: z.enum(postCategoryLabels),
     tags: z.array(z.string().trim().min(1)).default([]),
     thumbnail: imageSource.optional(),
+    ogImage: imageSource.optional(),
     draft: z.boolean().default(false),
   }),
 });

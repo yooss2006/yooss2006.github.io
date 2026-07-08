@@ -184,6 +184,7 @@ GitHub Pages에 자연스럽게 배포할 수 있는 정적 사이트 구조를 
 | category | 대표 분류 | `개발` | O |
 | tags | 보조 태그 목록 | `["Astro", "블로그"]` | X |
 | thumbnail | 목록에 보여줄 선택 이미지 | `/images/rain.jpg` | X |
+| ogImage | 링크 공유 카드에 사용할 선택 이미지. 없으면 빌드 시 게시글별 기본 카드가 생성된다. | `/og/posts/first-note.png` | X |
 | draft | 빌드/목록 제외 여부 | `false` | X |
 | body | Markdown 본문 | 본문 전체 | O |
 
